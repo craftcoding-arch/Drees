@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أزياء الزفاف - متجر فساتين وبدلات الأعراس</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', system-ui, sans-serif;
+            font-size: 12px;
+            border-radius: 0 !important;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fef9f7 0%, #fff5f2 100%);
+            color: #2d1b1b;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c44536;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            font-size: 0.9rem;
+            background: #f0e1dc;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            margin-right: 8px;
+        }
+
+        .admin-link {
+            background: #2c3e2f;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .admin-link:hover {
+            background: #1e2a20;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 3rem;
+            background: linear-gradient(135deg, #fff0eb, #ffe6e0);
+            border-radius: 0;
+            margin-bottom: 2.5rem;
+        }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        color: #c44536;
+    }
+
+    .hero p:last-of-type {
+        margin-top: 0.6rem;
+        color: #7b5c55;
+        font-size: 1rem;
+    }
+
+    .product-desc {
+        margin: 0.5rem 0 0;
+        color: #6d5956;
+        font-size: 0.95rem;
+        min-height: 36px;
+    }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            background: #f7edea;
+            padding: 12px;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-category {
+            color: #c44536;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d1b1b;
+        }
+
+        .details-btn, .add-cart-btn {
+            display: inline-block;
+            margin-top: 0.6rem;
+            background: #c44536;
+            color: white;
+            border: none;
+            padding: 0.55rem 1.2rem;
+            border-radius: 0;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .details-btn:hover, .add-cart-btn:hover {
+            background: #a9392d;
+            transform: translateY(-1px);
+        }
+
+        .add-cart-btn {
+            background: #2c3e2f;
+            margin-right: 0.4rem;
+        }
+
+        .add-cart-btn:hover {
+            background: #1f2c22;
+        }
+
+        .remove-btn {
+            background: #a12a2a;
+            color: #fff;
+            border: none;
+            padding: 0.35rem 0.9rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .cart-btn {
+            background: #c44536;
+            color: white;
+            border: none;
+            padding: 0.55rem 1.3rem;
+            border-radius: 999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+        }
+
+        .cart-count {
+            background: #fff;
+            color: #c44536;
+            border-radius: 999px;
+            padding: 0.1rem 0.6rem;
+            font-weight: 700;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #aa8a7a;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 3rem;
+            color: #aa8a7a;
+            font-size: 1.2rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 0;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .close-modal {
+            float: left;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">💍 ليالي الزفاف <span>Bridal Atelier</span></div>
+    <button id="cartBtn" class="cart-btn">🛒 السلة <span id="cartCount" class="cart-count">0</span></button>
+</div>
+
+<div class="container">
+    <div class="hero">
+        <h1>✨ أرقى فساتين وبدلات الأعراس</h1>
+    </div>
+    <div id="productsGrid" class="products-grid">
+        <div class="loading">⏳ جاري تحميل المنتجات...</div>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeCart">&times;</span>
+        <h2 style="margin-bottom:0.8rem;">🛒 السلة</h2>
+        <div id="cartList" style="max-height:320px; overflow-y:auto; margin-bottom:1rem;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin:0.8rem 0;">
+            <strong>الإجمالي:</strong>
+            <span id="cartTotal">0</span> دولار
+        </div>
+        <button id="checkoutBtn" class="details-btn" style="width:100%;">إتمام الطلب عبر واتساب</button>
+    </div>
+</div>
+
+<script>
+    // Backendless configuration
+    const APP_ID = 'briefproduce-us.backendless.app';
+    const BACKENDLESS_APP_ID = '2E6F9C1A-A874-4B86-B85D-D4BE224CA436';
+    const BACKENDLESS_API_KEY = 'D9A7EA80-8140-4F9A-8AD6-45A3FF2369A1';
+    const TABLE_NAME = 'Drees';
+    
+    let products = [];
+
+    async function fetchProducts() {
+        try {
+            const response = await fetch(`https://${APP_ID}/api/data/${TABLE_NAME}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'application-id': BACKENDLESS_APP_ID,
+                    'secret-key': BACKENDLESS_API_KEY
+                }
+            });
+            
+            if (!response.ok) throw new Error('فشل في جلب البيانات');
+            products = await response.json();
+            renderProducts();
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('productsGrid').innerHTML = `
+                <div class="empty-msg">
+                    ❌ خطأ في الاتصال بقاعدة البيانات<br>
+                    <small>يرجى التأكد من إعدادات Backendless</small>
+                </div>
+            `;
+        }
+    }
+
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        if (!products || products.length === 0) {
+            grid.innerHTML = `<div class="empty-msg">✨ لا توجد منتجات حالياً، تفضل بزيارة لوحة الإدارة لإضافة منتجات جديدة</div>`;
+            return;
+        }
+        
+        grid.innerHTML = products.map(product => {
+            const imageUrl = product.image || product.fileURL || 'https://via.placeholder.com/300?text=صورة';
+            const safePrice = (product.price || product.price === 0) ? product.price : 'غير محدد';
+            const safeCode = product.code || 'بدون كود';
+            const safeSize = product.size || 'غير محدد';
+            return `
+                <div class="product-card" data-id="${product.objectId}">
+                    <img class="product-img" src="${imageUrl}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300?text=صورة+غير+متاحة'">
+                    <div class="product-info">
+                        <div class="product-price">${safePrice} <small>دولار</small></div>
+                        <div style="font-weight:600; color:#5c4a48; margin-top:4px;">الكود: ${safeCode}</div>
+                        <div style="color:#7a6865;">المقاس: ${safeSize}</div>
+                        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                            <button class="add-cart-btn" data-id="${product.objectId}">إضافة للسلة</button>
+                            <a class="details-btn" href="detail.html?id=${product.objectId}">تفاصيل المنتج</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // Click handlers
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.getAttribute('data-id');
+                window.location.href = `detail.html?id=${id}`;
+            });
+        });
+
+        document.querySelectorAll('.add-cart-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const product = products.find(p => p.objectId === id);
+                if (product) addToCart(product);
+            });
+        });
+    }
+
+    // Cart logic
+    let cart = [];
+
+    function updateCartBadge() {
+        const badge = document.getElementById('cartCount');
+        badge.innerText = cart.length;
+    }
+
+    function addToCart(product) {
+        cart.push(product);
+        updateCartBadge();
+        renderCart();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartBadge();
+        renderCart();
+    }
+
+    function buildWhatsAppMessage() {
+        if (cart.length === 0) return '';
+        const lines = cart.map((item, idx) => `${idx + 1}- ${item.name || 'منتج'} | السعر: ${item.price} دولار`);
+        const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+        return encodeURIComponent(`أرغب بإتمام الطلب:\n${lines.join('\n')}\nالمجموع: ${total} دولار`);
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cartList');
+        const totalEl = document.getElementById('cartTotal');
+        if (!container || !totalEl) return;
+
+        if (cart.length === 0) {
+            container.innerHTML = '<div class=\"empty-msg\">السلة فارغة حالياً</div>';
+            totalEl.innerText = '0';
+            return;
+        }
+
+        container.innerHTML = cart.map((item, idx) => `
+            <div class=\"admin-item\" style=\"padding:0.8rem 1rem; border-radius:0;\">
+                <div style=\"display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;\">
+                    <img src=\"${item.image || item.fileURL || 'https://via.placeholder.com/55'}\" width=\"55\" height=\"55\" style=\"border-radius:14px; object-fit:cover;\" onerror=\"this.src='https://via.placeholder.com/55'\">
+                    <div>
+                        <strong>${item.name || 'منتج'}</strong><br>
+                        <small>${item.price} دولار</small>
+                    </div>
+                </div>
+                <button class=\"remove-btn\" data-remove=\"${idx}\">حذف</button>
+            </div>
+        `).join('');
+
+        const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+        totalEl.innerText = total;
+
+        // attach remove handlers
+        container.querySelectorAll('[data-remove]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const i = Number(btn.getAttribute('data-remove'));
+                removeFromCart(i);
+            });
+        });
+    }
+
+    function openCart() {
+        renderCart();
+        document.getElementById('cartModal').style.display = 'flex';
+    }
+
+    function closeCart() {
+        document.getElementById('cartModal').style.display = 'none';
+    }
+
+    // Modal close handlers
+    // Cart modal handlers
+    const cartBtn = document.getElementById('cartBtn');
+    const cartModal = document.getElementById('cartModal');
+    const closeCartBtn = document.getElementById('closeCart');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (cartBtn) cartBtn.onclick = openCart;
+    if (closeCartBtn) closeCartBtn.onclick = closeCart;
+    window.addEventListener('click', (e) => { if (e.target === cartModal) closeCart(); });
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) return;
+            const msg = buildWhatsAppMessage();
+            const phone = '963994817003';
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        });
+    }
+
+    // Load products on page load
+    fetchProducts();
+</script>
+</body>
+</html>
