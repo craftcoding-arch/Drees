@@ -48,14 +48,18 @@
             gap: 1.5rem;
             align-items: start;
         }
+        .gallery {
+            display: grid;
+            gap: 12px;
+        }
         .hero-img {
             width: 100%;
-            max-height: 640px;
-            min-height: 420px;
-            object-fit: contain;
+            max-height: 420px;
+            min-height: 320px;
+            object-fit: cover;
             background: #f7edea;
-            padding: 18px;
             border: 1px solid #eadad3;
+            cursor: zoom-in;
         }
         .info h1 {
             font-size: 1.6rem;
@@ -86,6 +90,21 @@
             gap: 0.6rem;
             flex-wrap: wrap;
         }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            background: #000;
+        }
         .btn {
             border: none;
             cursor: pointer;
@@ -109,7 +128,10 @@
         <a class="back-link" href="index.html">عودة للمتجر</a>
     </div>
     <div id="content" class="layout">
-        <img id="productImage" class="hero-img" src="" alt="">
+        <div class="gallery">
+            <img id="productImageFront" class="hero-img" src="" alt="">
+            <img id="productImageBack" class="hero-img" src="" alt="">
+        </div>
         <div class="info">
             <div class="pill" id="productCategory"></div>
             <h1 id="productTitle"></h1>
@@ -119,11 +141,7 @@
             <p class="desc" id="productDesc"></p>
             <div class="list-row"><strong>الأقمشة:</strong> <span id="fabricList"></span></div>
             <div class="list-row"><strong>الموديلات:</strong> <span id="modelList"></span></div>
-            <div class="list-row"><strong>الرقبات:</strong> <span id="neckList"></span></div>
-            <div class="list-row"><strong>الأكمام:</strong> <span id="sleeveList"></span></div>
-            <div class="list-row"><strong>تصاميم الظهر:</strong> <span id="backList"></span></div>
             <div class="list-row"><strong>أشكال التنورة:</strong> <span id="skirtList"></span></div>
-            <div class="list-row"><strong>الزخارف:</strong> <span id="ornamentList"></span></div>
             <div class="actions">
                 <button id="addCartBtn" class="btn secondary">إضافة للسلة</button>
                 <button id="waBtn" class="btn">إتمام الطلب عبر واتساب</button>
@@ -131,6 +149,9 @@
             <div class="small-note">السعر بالدولار الأمريكي</div>
         </div>
     </div>
+</div>
+<div id="lightbox" class="lightbox">
+    <img id="lightboxImg" src="" alt="">
 </div>
 <script>
     const APP_ID = 'briefproduce-us.backendless.app';
@@ -173,7 +194,8 @@
             return [];
         };
 
-        const imageUrl = product.image || product.fileURL || 'https://via.placeholder.com/500?text=صورة';
+        const frontUrl = product.imageFront || product.image || product.fileURL || 'https://via.placeholder.com/500?text=صورة+أمام';
+        const backUrl = product.imageBack || frontUrl || 'https://via.placeholder.com/500?text=صورة+خلف';
         const name = product.name || 'منتج';
         const category = product.category || 'غير مصنف';
         const desc = product.description || 'لا يوجد وصف متاح.';
@@ -182,14 +204,12 @@
         const size = product.size || 'غير محدد';
         const fabrics = toList(product.fabricsList);
         const models = toList(product.modelsList);
-        const necks = toList(product.neckList);
-        const sleeves = toList(product.sleeveList);
-        const backs = toList(product.backList);
         const skirts = toList(product.skirtList);
-        const ornaments = toList(product.ornamentList);
 
-        document.getElementById('productImage').src = imageUrl;
-        document.getElementById('productImage').alt = name;
+        document.getElementById('productImageFront').src = frontUrl;
+        document.getElementById('productImageFront').alt = name + ' - أمام';
+        document.getElementById('productImageBack').src = backUrl;
+        document.getElementById('productImageBack').alt = name + ' - خلف';
         document.getElementById('productCategory').innerText = category;
         document.getElementById('productTitle').innerText = name;
         document.getElementById('productPrice').innerHTML = `${price} <small>دولار</small>`;
@@ -198,11 +218,7 @@
         document.getElementById('productSize').innerText = `المقاس: ${size}`;
         document.getElementById('fabricList').innerText = fabrics.length ? fabrics.join('، ') : 'غير محدد';
         document.getElementById('modelList').innerText = models.length ? models.join('، ') : 'غير محدد';
-        document.getElementById('neckList').innerText = necks.length ? necks.join('، ') : 'غير محدد';
-        document.getElementById('sleeveList').innerText = sleeves.length ? sleeves.join('، ') : 'غير محدد';
-        document.getElementById('backList').innerText = backs.length ? backs.join('، ') : 'غير محدد';
         document.getElementById('skirtList').innerText = skirts.length ? skirts.join('، ') : 'غير محدد';
-        document.getElementById('ornamentList').innerText = ornaments.length ? ornaments.join('، ') : 'غير محدد';
 
         document.getElementById('waBtn').onclick = () => {
             const msg = encodeURIComponent(`أرغب بشراء:\n${name}\nالكود: ${code}\nالسعر: ${price} دولار\nالمقاس: ${size}`);
@@ -211,10 +227,20 @@
 
         document.getElementById('addCartBtn').onclick = () => {
             const existing = JSON.parse(localStorage.getItem('cart') || '[]');
-            existing.push({ id: product.objectId, name, price, image: imageUrl, code, size });
+            existing.push({ id: product.objectId, name, price, image: frontUrl, code, size });
             localStorage.setItem('cart', JSON.stringify(existing));
             alert('تمت إضافة المنتج للسلة');
         };
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const openLightbox = (src) => {
+            lightboxImg.src = src;
+            lightbox.style.display = 'flex';
+        };
+        document.getElementById('productImageFront').onclick = () => openLightbox(frontUrl);
+        document.getElementById('productImageBack').onclick = () => openLightbox(backUrl);
+        lightbox.onclick = () => { lightbox.style.display = 'none'; };
     }
 
     loadProduct();
